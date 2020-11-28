@@ -7,3 +7,4 @@ edition = "2018"
 [dependencies]
 tide = "0.15.0"
 async-trait = "0.1.41"
+log = "0.4.11"
