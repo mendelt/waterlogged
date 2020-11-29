@@ -1,6 +1,6 @@
 use tide::{Middleware, Next, Request, Result};
 
-pub struct LogMiddleware {}
+pub struct LogMiddleware;
 
 impl LogMiddleware {
     fn log_request<State>(&self, request: &Request<State>) {
@@ -16,12 +16,18 @@ impl LogMiddleware {
 
 #[async_trait::async_trait]
 impl<State: Clone + Send + Sync + 'static> Middleware<State> for LogMiddleware {
-    async fn handle(&self, request: Request<State>, next: Next<'_, State>) -> crate::Result {
-        self.log_request(&request);
+    async fn handle(&self, mut request: Request<State>, next: Next<'_, State>) -> crate::Result {
+        if request.ext::<LogMiddleware>().is_some() {
+            Ok(next.run(request).await)
+        } else {
+            request.set_ext(LogMiddleware);
 
-        let result = next.run(request).await;
+            self.log_request(&request);
 
-        self.log_response();
-        Ok(result)
+            let response = next.run(request).await;
+
+            self.log_response();
+            Ok(response)
+        }
     }
 }
