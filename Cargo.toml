@@ -1,8 +1,15 @@
 [package]
 name = "waterlogged"
 version = "0.1.0"
-authors = ["Mendelt Siebenga <msiebenga@gmail.com>"]
 edition = "2018"
+
+authors = ["Mendelt Siebenga <msiebenga@gmail.com>"]
+license = "MIT/Apache-2.0"
+description = "Simple logging middleware for Tide"
+repository = "https://github.com/mendelt/waterlogged"
+categories = ["web-programming", "logging"]
+keywords = ["tide", "logging", "middleware"]
+readme = "README.md"
 
 [dependencies]
 tide = "0.15.0"
